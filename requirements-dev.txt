@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest>=8,<10
+hypothesis>=6,<7
+pyflakes>=3,<4
+bandit>=1.7,<2
+pip-audit>=2.7,<3
