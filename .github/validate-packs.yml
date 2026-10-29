@@ -1,0 +1,21 @@
+name: validate-packs
+on:
+  pull_request:
+    paths: ['packs/**']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.DAL_APP_REPOSITORY }}
+          path: app
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install "numpy>=1.26,<3" "cryptography>=42,<47"
+      - run: python app/knowledge_tool.py validate packs/*.json --keys community_keys.txt
+      - run: python app/knowledge_tool.py merge packs/*.json --keys community_keys.txt --output aggregate.json
